@@ -13,18 +13,16 @@ class HomeWork2 {
         System.out.println("10 + 10 " + compareSum(10, 2));
         System.out.println("19 + 10 " + compareSum(19, 10) + "\n");
         System.out.println("Task #2 'Is the number positive?'");
-        System.out.println("-5 Is positive number? - " + isPositive( -5));
-        System.out.println("0 Is positive number? - " + isPositive( 0));
-        System.out.println("11 Is positive number? - "
-            + isPositive( 11) + "\n");
+        isPositive(5);
+        isPositive(0);
+        isPositive(-5);
         System.out.println("Task #3 'Is the number negative?'");
         System.out.println("-3 Is negative number? - " + isNegative( -3));
         System.out.println("0 Is negative number? - " + isNegative( 0));
         System.out.println("10 Is negative number? - "
             + isNegative( 10) + "\n");
         System.out.println("Task #4 'Multipling string'");
-        System.out.println("Typing 'this is the way' * 5: \n"
-            + multiplyTheString( "this is the way", 5));
+        multiplyTheString("this is the way", 5);
         System.out.println("Task #5 'Is this a leap year? '");
         System.out.println("Is 1987 a leap year? - "+isLeapYear(1987));
         System.out.println("Is 1988 a leap year? - "+isLeapYear(1988));
@@ -32,20 +30,18 @@ class HomeWork2 {
         System.out.println("Is 2000 a leap year? - "+isLeapYear(2000));
     }
     static boolean compareSum(int x, int y) {
-        return x + y >=10 & x + y <= 20 ? true : false;
+        return x + y >11 & x + y < 21;
     }
-    static String isPositive(int a) {
-        return a >= 0 ? "Positive" : "Negative";
+    static void isPositive(int a) {
+        System.out.println(a >= 0 ? (a + " Positive") : (a + "Negative"));
     }
     static boolean isNegative(int a) {
-        return  a < 0 ? true : false;
+        return a < 0;
     }
-    static String multiplyTheString(String s, int a) {
-        String sStart = "";
+    static void multiplyTheString(String s, int a) {
         for (int i = a; i > 0 ; i--){
-            sStart = sStart + s + "\n"; //"\n" is optional and used for comfort
+            System.out.println(s);
         }
-        return sStart;
     }
     static boolean isLeapYear(int year) {
         boolean leapYear = false;
