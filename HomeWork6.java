@@ -9,72 +9,117 @@ import java.util.Random;
 class HomeWork6 {
     public static void main(String[] args) {
         Random rnd = new Random();
-        Animal catMateus = new Cat("Mateus", "british fold", "ginger", 5);
-        Animal catTriss = new Cat("Triss", "outbred", "tabby", 3);
-        Animal dogKoritsa = new Dog("Koritsa", "dachshund", "dog", 4);
-        Animal dogSweetie = new Dog("Sweetie", "Alabai", "pale", 7);
-        Animal catSonya = new Cat("Sonya", "outbred", "black&white", 16);
-        Animal[] domesticAnimals = {catMateus, catTriss, dogKoritsa, dogSweetie, catSonya};
-        for (Animal a : domesticAnimals) {
+        IAnimal catMateus = new Cat("Mateus", "british fold", "ginger", 5);
+        IAnimal catTriss = new Cat("Triss", "outbred", "tabby", 3);
+        IAnimal dogKoritsa = new Dog("Koritsa", "dachshund", "dog", 4);
+        IAnimal dogSweetie = new Dog("Sweetie", "Alabai", "pale", 7);
+        IAnimal catSonya = new Cat("Sonya", "outbred", "black&white", 16);
+        IAnimal[] domesticAnimals = {catMateus, catTriss, dogKoritsa, dogSweetie, catSonya};
+        for (IAnimal a : domesticAnimals) {
             System.out.println(a.toString());
             a.run(rnd.nextInt(600) + 1);
             a.swim(rnd.nextInt(20) + 1);
+            System.out.println();
         }
-
+        System.out.println("There are " + 
+                Dog.getCount() + " dogs, " +
+                "and " + Cat.getCount() + " cats" +
+                "\nTotal: " + (Dog.getCount() + Cat.getCount()));
     }
 }   
 
 class Dog extends Animal {
+    private static int count;
     Dog(String name, String breed, String color, int age) {
         super(name, breed, color, age);
+        count++;
+        canSwim = true;
+        maxSwim = 10;
+        maxRun = 500;
     }
 
     @Override
-    void swim(int swimLength) {
-        System.out.println(swimLength <= 10 ? name + " swimmed " + swimLength + " m" : 
-                name + " swimmed 10 m and tired");  
+    public void swim(int swimLength){
+        if (canSwim == true) {
+            if (maxSwim > swimLength) {
+                System.out.println(name + " successfully swimmed " + swimLength + " m");
+            } else {
+                System.out.println(name + " tired after " + maxSwim + " m");
+            }
+        } else {
+            System.out.println(name + " not swim.");
+        }
     }
 
     @Override
-    void run(int runLength) {
-        System.out.println(runLength <= 500 ? name + " run " + runLength + " m" : 
-                name + " run 500 m and tired");  
+    public void run(int runLength) {
+        System.out.println(runLength <= maxRun ? name + " run " + runLength + " m" : 
+                name + " run " + maxRun + " m and tired");  
+    }
+
+    static int getCount(){
+        return count;
     }
 }
 
 class Cat extends Animal {
+    private static int count;
     Cat(String name, String breed, String color, int age) {
         super(name, breed, color, age);
+        count++;
+        canSwim = false;
+        maxSwim = 0;
+        maxRun = 400;
     }
 
     @Override
-    void swim(int swimLength) {
-        System.out.println(name + " don't wanna swim. Pffffffsh!");  
+    public void swim(int swimLength){
+        if (canSwim == true) {
+            if (maxSwim > swimLength) {
+                System.out.println(name + " successfully swimmed " + swimLength + " m");
+            } else {
+                System.out.println(name + " tired after " + swimLength + " m");
+            }
+        } else {
+            System.out.println(name + " not swim.");
+        }
     }
 
     @Override
-    void run(int runLength) {
-        System.out.println(runLength <= 400 ? name + " run " + runLength + " m" : 
-                name + " run 400 m and tired");  
+    public void run(int runLength) {
+        System.out.println(runLength <= maxRun ? name + " run " + runLength + " m" : 
+                name + " run " + maxRun + " m and tired");  
     }
+    
+    static int getCount() {
+        return count;
+    }
+
 }
 
-abstract class Animal {
+interface IAnimal {
+    void swim(int swimLength);
+    void run(int runLength);
+}
+
+abstract class Animal implements IAnimal {
     protected String name;
     protected String breed;
     protected String color;
     protected int age;
+    protected boolean canSwim;
+    protected int maxRun;
+    protected int maxSwim;
 
     Animal(String name, String breed, String color, int age) {
         this.name = name;
         this.breed = breed;
         this.color = color;
         this.age = age;
+        this.maxRun = maxRun;
+        this.maxSwim = maxSwim;
+        this.canSwim = canSwim;
     }
-
-    abstract void swim(int swimLength);
-    
-    abstract void run(int runLength);
 
     @Override
     public String toString() {
@@ -83,4 +128,6 @@ abstract class Animal {
                 "\nColor: " + color + 
                 "\nAge: " + age; 
     }
+
+    
 }
